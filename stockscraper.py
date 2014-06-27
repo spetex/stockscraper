@@ -5,25 +5,33 @@ Created on Mon Jun  9 22:14:36 2014
 @author: johnnyb
 """
 
-### This is the fucking scraper!!! ###
+### This is the mighty scraper!!! ###
 
 import requests
+import lxml
 from bs4 import BeautifulSoup
 
-# Stránka kterou budeme scrapovat
+# Site we want to scrape
 url = "http://bitstock.cz"
 
-# objekt, který ji představuje
+# to object
 page = requests.get(url)
 
-# tahle proměnná už bude obsahovat samotný html kód stránky
+# this object becomes the code of the page
 html = page.text
 
-# tady se děje magie, rozparsujeme pomocí Beautifulsoup
-# a vrácený objekt uložíme do proměnné soup
-soup = BeautifulSoup(html)
+# magic, parse html with beatifulsoup to get a sort of a dictionary object
+# now using a lxml parser module
+soup = BeautifulSoup(html, "lxml")
 
-for header in soup.find_all('h'):
-    print header.text
+# go trough the table with sell commands by id
+sellbody =  soup.find(id="sellbodyList")
+
+#sell command for every row, get them all!
+sellTableRows = sellbody.find_all('tr')
+
+ 
+     
+    
 
 
