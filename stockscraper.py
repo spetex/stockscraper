@@ -30,6 +30,27 @@ sellbody =  soup.find(id="sellbodyList")
 #sell command for every row, get them all!
 sellTableRows = sellbody.find_all('tr')
 
+# just try to get one row for at a time
+
+for td in sellTableRows:
+    print("item info: 1")
+    tdString = td.text
+    print tdString
+    tdList = tdString.split("\n")
+    print tdList
+    
+    #get the price from the tdList
+    
+    price=tdList[1]
+    price=price.replace(' ', '')
+    price=price.replace(',', '')
+    price=int(price)/100
+    
+    #input("press any key:")
+    break
+
+        
+
  
      
     
