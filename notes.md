@@ -2,6 +2,11 @@
 
  * git name: stscrp
 
+## how to commit
+ * git add *
+ * git commit -m "comment"
+ * git push origin master
+
 ## Architecture
 
 hledáme obyčejnou architekturu M-V-C.
