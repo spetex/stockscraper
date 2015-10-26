@@ -10,6 +10,8 @@ Created on Mon Jun  9 22:14:36 2014
 import requests
 import lxml
 from bs4 import BeautifulSoup
+import pdb
+import json
 
 # Site we want to scrape
 url = "http://bitstock.cz/en"
@@ -31,7 +33,7 @@ soup = BeautifulSoup(html, "lxml")
 # whole body of the relevant table has id sellbodyList
 #get that
 
-def getSellList():
+def get_dict(id):
 #this is the list of lists
 #we are gonna return that afterwards
     sellOrdersList = []
@@ -41,37 +43,64 @@ def getSellList():
 # and add it as an item in sellOrdersList
     sellOrderItem = []
 
-    sellbody =  soup.find(id="sellbodyList")
+    sellbody =  soup.find(id=id)
 
 #sell command for every row, get them all!
 #we put them in a so called ResultSet
     sellTableRows = sellbody.find_all('tr')
 
+    sellbodytable = []
+
+
 
 # Now we iterate through them, so we get one sell order at a time
-    for td in sellTableRows:
-        print("item info: 1")
-        tdString = td.text
-        print tdString
-        tdList = tdString.split("\n")
-        print tdList
-    
+    for item in sellTableRows:
+        rowlist = {}
+        sellTableCells = item.find_all('td')
+        row = list(sellTableCells)
+        avgprice = float(row[0].text.replace(' ', '').replace(',',''))/100
+        amount = row[1].text.split('/')
+        maxamount = float(amount[0].replace(' ', '').replace(',',''))/100
+        minamount = float(amount[1].replace(' ', '').replace(',',''))/100
+        totalprice = float(row[2].text.replace(' ', '').replace(',',''))/100
+	rowlist['avgprice'] = avgprice
+	rowlist['maxamount'] = maxamount
+	rowlist['minamount'] = minamount
+	rowlist['totalprice'] = totalprice
+        sellbodytable.append(rowlist)
+
+
+
+#        for cell in sellTableCells:
+#            cellValue = float(cell.text)
+#             cellValue = cell.text
+#             cellValue = cellValue.replace(' ','')
+#             cellValue = cellValue.replace(',','')
+#             cellValue = float(cellValue)/100
+
     #get the price from the tdList
-    
-        price=tdList[1]
-        price=price.replace(' ', '')
-        price=price.replace(',', '')
-        price=int(price)/100
-    
+
+#        price=tdList[1]
+#        price=price.replace(' ', '')
+#        price=price.replace(',', '')
+#        price=int(price)/100
+
     #input("press any key:")
-        break
-    
-    return getSellList
 
-        
+    sbtdict = {} 
+    sbtdict['list'] = sellbodytable
+    return sbtdict
 
- 
-     
-    
+
+
+selldict = get_dict('sellbodyList')
+selljson = json.dumps(selldict)
+with open('sell_orders.json', 'w') as jsonfile:
+    jsonfile.write(selljson)
+
+buydict = get_dict('buybodyList')
+buyjson = json.dumps(buydict)
+with open('buy_orders.json', 'w') as jsonfile:
+    jsonfile.write(buyjson)
 
 
