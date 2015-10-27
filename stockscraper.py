@@ -58,11 +58,11 @@ def get_dict(id):
         rowlist = {}
         sellTableCells = item.find_all('td')
         row = list(sellTableCells)
-        avgprice = float(row[0].text.replace(' ', '').replace(',',''))/100
+        avgprice = float(row[0].text.replace(' ', '').replace(',','.'))
         amount = row[1].text.split('/')
-        maxamount = float(amount[0].replace(' ', '').replace(',',''))/100
-        minamount = float(amount[1].replace(' ', '').replace(',',''))/100
-        totalprice = float(row[2].text.replace(' ', '').replace(',',''))/100
+        maxamount = float(amount[0].replace(' ', '').replace(',','.'))
+        minamount = float(amount[1].replace(' ', '').replace(',','.'))
+        totalprice = float(row[2].text.replace(' ', '').replace(',','.'))
 	rowlist['avgprice'] = avgprice
 	rowlist['maxamount'] = maxamount
 	rowlist['minamount'] = minamount
