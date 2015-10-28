@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Created on Mon Jun  9 22:14:36 2014
@@ -94,12 +95,12 @@ def get_dict(id):
 
 
 selldict = get_dict('sellbodyList')
-selljson = json.dumps(selldict)
+selljson = json.dumps(selldict, indent=3)
 with open('sell_orders.json', 'w') as jsonfile:
     jsonfile.write(selljson)
 
 buydict = get_dict('buybodyList')
-buyjson = json.dumps(buydict)
+buyjson = json.dumps(buydict, indent=3)
 with open('buy_orders.json', 'w') as jsonfile:
     jsonfile.write(buyjson)
 

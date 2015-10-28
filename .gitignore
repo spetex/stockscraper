@@ -1,2 +1,8 @@
-buyorders.json
-sellorders.json
+buy_orders.json
+sell_orders.json
+
+#Python bytecode
+*.pyc
+
+#Vim swap files
+*.swp
